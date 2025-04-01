@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表 | 技术博客</title>
+    <!-- 保持与首页相同的样式 -->
+    <style>
+        /* 复用首页样式 */
+        :root, body, .navbar, .container 等样式保持不变... 
+        
+        /* 新增文章列表专用样式 */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            align-items: center;
+        }
+
+        #categoryFilter {
+            padding: 0.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .article-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .article-item {
+            padding: 1.5rem;
+            background: white;
+            border-left: 4px solid var(--secondary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .article-item:hover {
+            transform: translateX(5px);
+        }
+
+        .article-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin: 0.5rem 0;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="articles.html">文章</a></li>
+            <li><a href="#downloads">资源</a></li>
+            <li><a href="#about">关于</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="filter-bar">
+            <h2>筛选文章：</h2>
+            <select id="categoryFilter">
+                <option value="all">全部</option>
+                <option value="前端开发">前端开发</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="CSS">CSS</option>
+            </select>
+        </div>
+
+        <div class="article-list" id="articleContainer">
+            <!-- 动态加载文章列表 -->
+        </div>
+    </div>
+
+    <script>
+        // 文章数据加载
+        async function loadArticles() {
+            try {
+                const response = await fetch('articles.json');
+                const articles = await response.json();
+                renderArticles(articles);
+                setupFilter(articles);
+            } catch (error) {
+                console.error('加载文章失败:', error);
+            }
+        }
+
+        // 渲染文章列表
+        function renderArticles(articles, category = 'all') {
+            const container = document.getElementById('articleContainer');
+            container.innerHTML = '';
+
+            const filtered = category === 'all' 
+                ? articles 
+                : articles.filter(article => article.category === category);
+
+            filtered.forEach(article => {
+                const articleEl = document.createElement('article');
+                articleEl.className = 'article-item';
+                articleEl.innerHTML = `
+                    <h3><a href="${article.url}">${article.title}</a></h3>
+                    <div class="article-meta">
+                        ${article.date} | 阅读量：${article.views} | 分类：${article.category}
+                    </div>
+                    <p>${article.summary}</p>
+                    <div class="article-tags">
+                        ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+                container.appendChild(articleEl);
+            });
+        }
+
+        // 分类筛选功能
+        function setupFilter(articles) {
+            const filter = document.getElementById('categoryFilter');
+            
+            // URL参数处理
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialCategory = urlParams.get('category');
+            if (initialCategory) {
+                filter.value = initialCategory;
+                renderArticles(articles, initialCategory);
+            }
+
+            filter.addEventListener('change', () => {
+                const category = filter.value;
+                history.replaceState(null, '', `?category=${category}`);
+                renderArticles(articles, category);
+            });
+        }
+
+        // 初始化
+        window.addEventListener('DOMContentLoaded', loadArticles);
+    </script>
+</body>
+</html>
