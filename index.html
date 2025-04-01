@@ -1,3 +1,173 @@
-<h1>xaj下载站</h1>
-<p><a href="">VScode</a></p>
-<p><a href="">VScode拓展</a></p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人技术博客</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 导航样式 */
+        .navbar {
+            background: var(--primary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* 主体内容容器 */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* 文章卡片 */
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 资源下载区 */
+        .download-section {
+            margin-top: 3rem;
+            border-top: 2px solid #eee;
+            padding-top: 2rem;
+        }
+
+        .download-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .download-item a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin-left: 1rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-links a {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#articles">文章</a></li>
+            <li><a href="#downloads">资源</a></li>
+            <li><a href="#about">关于</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- 文章列表 -->
+        <section id="articles">
+            <h2>最新文章</h2>
+            
+            <div class="article-card">
+                <h3>JavaScript 最佳实践</h3>
+                <p class="meta">发布日期：2023-10-01 | 阅读量：256</p>
+                <p>分享JavaScript开发中的实用技巧和最佳实践方案...</p>
+            </div>
+
+            <div class="article-card">
+                <h3>CSS布局完全指南</h3>
+                <p class="meta">发布日期：2023-09-25 | 阅读量：189</p>
+                <p>深入解析Flexbox和Grid布局的使用方法...</p>
+            </div>
+        </section>
+
+        <!-- 资源下载 -->
+        <section class="download-section" id="downloads">
+            <h2>资源下载</h2>
+            
+            <div class="download-item">
+                <span>📘</span>
+                <a href="resources/ebook.pdf" download>前端开发手册.pdf</a>
+                <span>(2.5MB)</span>
+            </div>
+
+            <div class="download-item">
+                <span>💻</span>
+                <a href="resources/code-template.zip" download>项目模板.zip</a>
+                <span>(5.1MB)</span>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 平滑滚动功能
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 页面加载后执行
+        window.addEventListener('DOMContentLoaded', () => {
+            // 可以在这里添加文章动态加载功能
+            // 如果需要从JSON加载内容，可以使用fetch API
+        });
+    </script>
+</body>
+</html>
